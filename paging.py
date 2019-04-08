@@ -8,7 +8,10 @@ def FIFO(size,pages):
     page_faults = 0;
     for page in pages:
         if len(memory) < int(sys.argv[2]):
-            memory.append(page)
+            if page in memory:
+                continue
+            else:
+                memory.append(page)
         else:
             if page in memory:
                 continue
@@ -23,7 +26,7 @@ def FIFO(size,pages):
 
 def main():
     pages = ""
-    for i in range(0,int(sys.argv[1])+1):
+    for i in range(0,int(sys.argv[1])):
         pages+= str(random.randint(0,9)) +  " "
     print(pages)
     print()
