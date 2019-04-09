@@ -1,11 +1,12 @@
 import random
 import sys
+from collections import deque
 
 def FIFO(size,pages):
     memory = []
     pages = pages.split()
-    replacement_index = 0;
-    page_faults = 0;
+    replacement_index = 0
+    page_faults = 0
     for page in pages:
         if len(memory) < int(sys.argv[2]):
             if page in memory:
@@ -21,8 +22,37 @@ def FIFO(size,pages):
                 page_faults+=1
                 if replacement_index > size:
                     replacement_index = 0
-        print(memory)
-    return page_faults;
+        #print(memory)
+    return page_faults
+
+def LRU(size,pages):
+    memory = deque([])
+    pages = pages.split()
+    page_faults = 0
+    replacement_index = 0
+    for page in pages:
+        #print(memory)
+        if len(memory) < int(sys.argv[2]):
+            if page in memory:
+                #replacement_index = memory.indexof(page)
+                memory.remove(page)
+                memory.append(page)
+            else:
+                memory.append(page)
+
+        else:
+            if page in memory:
+                #replacement_index = memory.indexof(page)
+                memory.remove(page)
+                memory.append(page)
+            else:
+                memory.popleft()
+                memory.append(page)
+                page_faults+=1
+    return page_faults
+
+def OPT(size,page):
+    
 
 def main():
     pages = ""
@@ -32,7 +62,7 @@ def main():
     print()
     size = int(sys.argv[1])
     print("FIFO", FIFO(size,pages), "page faults.")
-    #print("LRU", LRU(size,pages), "page faults.")
+    print("LRU", LRU(size,pages), "page faults.")
     #print("OPT", OPT(size,pages), "page faults.")
 
 if __name__ == "__main__":
